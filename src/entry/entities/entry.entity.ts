@@ -1,25 +1,44 @@
-import { User } from 'src/user/entities/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, VirtualColumn } from 'typeorm';
+import { IsOptional } from "class-validator";
+import { User } from "src/user/entities/user.entity";
+import {
+	Entity,
+	Column,
+	PrimaryGeneratedColumn,
+	ManyToOne,
+	CreateDateColumn,
+	UpdateDateColumn,
+	AfterLoad,
+	AfterInsert,
+	AfterUpdate,
+} from "typeorm";
 
 @Entity()
 export class Entry {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@ManyToOne(() => User, (user) => user.entries)
+	@ManyToOne(
+		() => User,
+		(user) => user.entries,
+		{ nullable: false },
+	)
 	user: User;
 
 	@Column()
-	date: Date;
+	startTime: number;
 
 	@Column()
-	start: Date;
+	endTime: number;
 
-	@Column()
-	end: Date;
+	@IsOptional()
+	duration: number;
 
-  @VirtualColumn({ query: (alias) => `SELECT ${alias}."end" - ${alias}."start"` })
-  duration: number;
+	@AfterLoad()
+	@AfterInsert()
+	@AfterUpdate()
+	generateDuration(): void {
+		this.duration = Math.round((this.endTime - this.startTime) / 1000);
+	}
 
 	@CreateDateColumn()
 	createdAt: Date;
