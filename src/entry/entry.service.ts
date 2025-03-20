@@ -3,17 +3,9 @@ import { CreateEntryDto } from "./dto/create-entry.dto";
 import { UpdateEntryDto } from "./dto/update-entry.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Entry } from "./entities/entry.entity";
-import {
-	Between,
-	Equal,
-	LessThanOrEqual,
-	MoreThanOrEqual,
-	Repository,
-} from "typeorm";
+import { LessThanOrEqual, MoreThanOrEqual, Repository } from "typeorm";
 import {
 	addMilliseconds,
-	addMinutes,
-	addSeconds,
 	format,
 	formatDuration,
 	getHours,
@@ -24,7 +16,6 @@ import {
 	setMinutes,
 	setSeconds,
 	startOfWeek,
-	startOfYear,
 	addDays,
 } from "date-fns";
 
@@ -35,7 +26,7 @@ export class EntryService {
 		private entriesRepository: Repository<Entry>,
 	) {}
 
-	private async validateEntry(
+	async validateEntry(
 		userId: number,
 		startTime: number,
 		endTime: number,
@@ -108,6 +99,8 @@ export class EntryService {
 		const entries = await this.entriesRepository.find({
 			where: {
 				user: { id: userId },
+				// Don't feel great about this typecasting here. Something odd with the way
+				// sqlite compares dates. I could debug for awhile but I wanted to finish this up.
 				endTime: MoreThanOrEqual(weekOf as unknown as number),
 				startTime: LessThanOrEqual(addDays(weekOf, 7) as unknown as number),
 			},
