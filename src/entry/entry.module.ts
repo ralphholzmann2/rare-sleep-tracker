@@ -6,8 +6,8 @@ import { Entry } from "./entities/entry.entity";
 import { JwtModule } from "@nestjs/jwt";
 
 @Module({
-	imports: [TypeOrmModule.forFeature([Entry]), JwtModule],
-	controllers: [EntryController],
-	providers: [EntryService],
+  imports: [TypeOrmModule.forFeature([Entry]), JwtModule],
+  controllers: [EntryController],
+  providers: [EntryService],
 })
 export class EntryModule {}

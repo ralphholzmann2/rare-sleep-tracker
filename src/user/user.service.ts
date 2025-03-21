@@ -6,16 +6,16 @@ import { Repository } from "typeorm";
 
 @Injectable()
 export class UserService {
-	constructor(
-		@InjectRepository(User)
-		private usersRepository: Repository<User>,
-	) {}
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
 
-	create(createUserDto: CreateUserDto) {
-		return this.usersRepository.save(createUserDto);
-	}
+  create(createUserDto: CreateUserDto) {
+    return this.usersRepository.save(createUserDto);
+  }
 
-	findByEmail(email: string) {
-		return this.usersRepository.findOne({ where: { email } });
-	}
+  findByEmail(email: string) {
+    return this.usersRepository.findOne({ where: { email } });
+  }
 }

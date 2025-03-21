@@ -1,4 +1,9 @@
 {
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
   "javascript": {
     "parser": {
       "unsafeParameterDecoratorsEnabled": true

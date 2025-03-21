@@ -8,8 +8,8 @@ import { JwtModule, JwtService } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 
 @Module({
-	imports: [TypeOrmModule.forFeature([User]), JwtModule],
-	controllers: [AuthController],
-	providers: [UserService, AuthService],
+  imports: [TypeOrmModule.forFeature([User]), JwtModule],
+  controllers: [AuthController],
+  providers: [UserService, AuthService],
 })
 export class AuthModule {}

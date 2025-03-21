@@ -1,13 +1,13 @@
 import {
-	Controller,
-	Get,
-	Post,
-	Body,
-	Patch,
-	Param,
-	Delete,
-	UseGuards,
-	Query,
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Query,
 } from "@nestjs/common";
 import { EntryService } from "./entry.service";
 import { CreateEntryDto } from "./dto/create-entry.dto";
@@ -21,46 +21,46 @@ import { parse, startOfWeek } from "date-fns";
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
 export class EntryController {
-	constructor(private entryService: EntryService) {}
+  constructor(private entryService: EntryService) {}
 
-	@Get("summary")
-	getSummary(@Query("week") week: string, @UserId() userId: number) {
-		let parsedWeek: Date;
-		try {
-			parsedWeek = parse(week, "yyyy-MM-dd", new Date());
-		} catch (error) {
-			parsedWeek = new Date();
-		}
-		const weekOf = startOfWeek(parsedWeek, { weekStartsOn: 1 });
-		return this.entryService.getSummary(userId, weekOf);
-	}
+  @Get("summary")
+  getSummary(@Query("week") week: string, @UserId() userId: number) {
+    let parsedWeek: Date;
+    try {
+      parsedWeek = parse(week, "yyyy-MM-dd", new Date());
+    } catch (error) {
+      parsedWeek = new Date();
+    }
+    const weekOf = startOfWeek(parsedWeek, { weekStartsOn: 1 });
+    return this.entryService.getSummary(userId, weekOf);
+  }
 
-	@Post()
-	create(@Body() createEntryDto: CreateEntryDto, @UserId() userId: number) {
-		return this.entryService.create(createEntryDto, userId);
-	}
+  @Post()
+  create(@Body() createEntryDto: CreateEntryDto, @UserId() userId: number) {
+    return this.entryService.create(createEntryDto, userId);
+  }
 
-	@Get()
-	findAll(@UserId() userId: number) {
-		return this.entryService.findAll(userId);
-	}
+  @Get()
+  findAll(@UserId() userId: number) {
+    return this.entryService.findAll(userId);
+  }
 
-	@Get(":id")
-	findOne(@Param("id") id: string) {
-		return this.entryService.findOne(+id);
-	}
+  @Get(":id")
+  findOne(@Param("id") id: string) {
+    return this.entryService.findOne(+id);
+  }
 
-	@Patch(":id")
-	update(
-		@Param("id") id: string,
-		@Body() updateEntryDto: UpdateEntryDto,
-		@UserId() userId: number,
-	) {
-		return this.entryService.update(+id, updateEntryDto, userId);
-	}
+  @Patch(":id")
+  update(
+    @Param("id") id: string,
+    @Body() updateEntryDto: UpdateEntryDto,
+    @UserId() userId: number,
+  ) {
+    return this.entryService.update(+id, updateEntryDto, userId);
+  }
 
-	@Delete(":id")
-	remove(@Param("id") id: string, @UserId() userId: number) {
-		return this.entryService.remove(+id, userId);
-	}
+  @Delete(":id")
+  remove(@Param("id") id: string, @UserId() userId: number) {
+    return this.entryService.remove(+id, userId);
+  }
 }
